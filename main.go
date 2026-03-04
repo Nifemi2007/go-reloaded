@@ -6,9 +6,11 @@ import ("fmt"
 // "os"
 )
 
+
+
 func formatSentence(s string) string{
 	words := strings.Split(s, " ")
-	
+
 	for idx, _ := range words {
 
 		// Capitalize
@@ -35,19 +37,23 @@ func formatSentence(s string) string{
 			words[idx -1] = val
 			words[idx] = ""
 		}  else if words[idx] == "(bin)" {
-			// convert from base 2 to base 10
-			s,_ := strconv.ParseInt(words[idx -1], 2, 32)
+			// convert binary to decimal
+			s, _ := strconv.ParseInt(words[idx -1], 2, 32)
 
-			// convert from int to string
+			// convert int to string
 			val := strconv.FormatInt(s, 10)
-			words[idx -1 ] = val
+			words[idx -1] = val
+			
 			words[idx] = ""
 
-			fmt.Printf("%T, %T\n", s ,val)
-		} 
+			// To execute keywords based on number
+		} else if strings.Contains(words[idx],"(") {
+			slice := words[idx:idx+2]
+			fmt.Println(slice[0])
+		}
 	}
-	output := strings.Join(words, " ")
-	fmt.Println(output)
+	// output := strings.Join(words, " ")
+	// fmt.Println(output)
 	return s
 }
 
