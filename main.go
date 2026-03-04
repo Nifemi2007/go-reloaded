@@ -1,36 +1,78 @@
 package main
 import ("fmt"
-// "strings"
-"os"
+"strings"
+"strconv"
+// "slices"
+// "os"
 )
 
 func formatSentence(s string) string{
+	words := strings.Split(s, " ")
 	
+	for idx, _ := range words {
+
+		// Capitalize
+		if words[idx] == "(cap)" {
+			capSlice := []byte(words[idx -1])
+			capSlice[0] = capSlice[0] - 32
+			words[idx - 1] = string(capSlice)
+			words[idx] = ""
+			// To Uppercase
+		} else if words[idx] == "(up)" {
+			words[idx - 1] = strings.ToUpper(words[idx - 1])
+			words[idx] = ""
+
+			// To LowerCase
+		} else if words[idx] == "(low)" {
+			words[idx - 1] = strings.ToLower(words[idx -1])
+			words[idx] = ""
+		} else if words[idx] == "(hex)" {
+			// convert from base 16 to base 10
+			s, _ := strconv.ParseInt(words[idx -1], 16, 32)
+
+			// convert from int to string
+			val := strconv.FormatInt(s,10)
+			words[idx -1] = val
+			words[idx] = ""
+		}  else if words[idx] == "(bin)" {
+			// convert from base 2 to base 10
+			s,_ := strconv.ParseInt(words[idx -1], 2, 32)
+
+			// convert from int to string
+			val := strconv.FormatInt(s, 10)
+			words[idx -1 ] = val
+			words[idx] = ""
+
+			fmt.Printf("%T, %T\n", s ,val)
+		} 
+	}
+	output := strings.Join(words, " ")
+	fmt.Println(output)
 	return s
 }
 
 func main() {
-	// Getting the input from .txt
-	filePath := os.Args[1]
-	content, err := os.ReadFile(filePath)
-	if(err != nil) {
-		fmt.Printf("File Error: %v", err)
-		return
-	}
+	// // Getting the input from .txt
+	// inputPath := os.Args[1]
+	// content, err := os.ReadFile(inputPath)
+	// if err != nil {
+	// 	fmt.Printf("File Error: %v", err)
+	// }	
+
+	defectSent := "it (cap) was the best of times, it was the worst of times (up) , it was the age of wisdom, it was the age of foolishness (cap, 6) , it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of darkness, it was the spring of hope, IT WAS THE (low, 3) winter of despair."
+	formatSentence(defectSent)
+
+	defectSent2 := "Simply add 42 (hex) and 10 (bin) and you will see the result is 68."
+	formatSentence(defectSent2)
 
 
-
-
-
-	// Saving the Output
-	outputPath := os.Args[2]
-	data := []byte(formatSentence(string(content)))
-
-	err2 := os.WriteFile(outputPath, data, 0644)
-	if(err2 != nil) {
-		fmt.Printf("Error Value: %v", err2)
-		return
-	}
+	// // Saving the Output
+	// outputPath := os.Args[2]
+	// data := []byte(formatSentence(string(content)))
+	// err2 := os.WriteFile(outputPath, data, 0644)
+	// if err2 != nil {
+	// 	fmt.Printf("Error: %v", err2)
+	// }
 	
 }
 // // func returnDecimal() {
