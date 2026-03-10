@@ -136,36 +136,41 @@ func formatSentence(s string) string{
 			// Save index of single quotes
 	 	} else if strings.Contains(words[idx], "'") {
 			quoteIndex = append(quoteIndex, idx)
-		}
+		} 
 	
 	}
 
-	// To remove spaces in quotes
-	words[quoteIndex[0] + 1] = words[quoteIndex[0]] + words[quoteIndex[0] + 1]
-	words[quoteIndex[0]] = ""
-
-	words[quoteIndex[1] - 1]  = words[quoteIndex[1] - 1] + words[quoteIndex[1]]
-	words[quoteIndex[1]]  = ""
-	// fmt.Println(quoteIndex)
+		// fmt.Println(quoteIndex)
 
 
 	
+					// To remove spaces in quotes
 
+	for index,_ := range words {
+		 if strings.Contains(words[index], "'"){
+		words[quoteIndex[0] + 1] = words[quoteIndex[0]] + words[quoteIndex[0] + 1]
+		words[quoteIndex[0]] = ""
+
+		words[quoteIndex[1] - 1]  = words[quoteIndex[1] - 1] + words[quoteIndex[1]]
+		words[quoteIndex[1]]  = ""
+
+		} 
+	}
 	
 	
 	// To remove spaces
 	for index,_:= range words {
 		if words[index] == "" {
-			// fmt.Println(words[index - 1])
 			continue
-		}   else {
+
+			}  else {
 			formatedWords = append(formatedWords, words[index])
 		} 
 	}
 
 	
 	output := strings.Replace(strings.Join(formatedWords," "), " ,", ",", -1)
-
+	// output = strings.TrimSpace(output)
 
 	// output:= strings.Join(formatedWords," ")
 	// fmt.Println(output)
